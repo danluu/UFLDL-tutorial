@@ -38,7 +38,7 @@ for i = 1:length(theta0_vals)
       for j = 1:length(theta1_vals)
             t = [theta0_vals(i); theta1_vals(j)];
             h = sum(x * t);
-            J_vals(i,j) = sum((h - y).^2);
+            J_vals(i,j) = sum((h - y).^2) / (2*m);
     end
 end
 
