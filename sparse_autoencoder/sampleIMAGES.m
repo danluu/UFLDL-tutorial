@@ -25,13 +25,16 @@ patches = zeros(patchsize*patchsize, numpatches);
 %  Image 1
 
 
+% imagesc(IMAGES(:,:,10)) % 1-10
+% size(patches)      % 64 x 10000
+% size(patches(:,1)) % 64 x 1
 
-
-
-
-
-
-
+for i = 1:numpatches
+    x = randi(512-8);
+    y = randi(512-8);
+    sample = IMAGES(x:x+7,y:y+7,randi(10));
+    patches(:,i) = sample(:);
+end
 
 %% ---------------------------------------------------------------
 % For the autoencoder to work well we need to normalize the data
