@@ -49,7 +49,6 @@ b2grad = zeros(size(b2));
 
 m = size(data, 2);
 
-i = 0;
 z_2_temp = W1 * data;
 z_2 = bsxfun(@plus, z_2_temp, b1);
 a_2 = sigmoid(z_2); % 25 10000
@@ -65,12 +64,12 @@ cost = sum(sum(a_3 - data).^2) / (2*m);
 
 delta_3 = -(data - a_3) .* (a_3 .* (1-a_3));   % 64 10000
 delta_2 = W2' * delta_3 .* (a_2 .* (1-a_2));   % 25 10000
-delta_1 = W1' * delta_2 .* (data .* (1-data)); % 64 10000
+% delta_1 = W1' * delta_2 .* (data .* (1-data)); % 64 10000
 
-b1grad = sum(delta_2, 2);
-b2grad = sum(delta_3, 2);
-W1grad = delta_3 * a_2'; % 25 64
-W2grad = delta_2 * data'; % 25 64
+b1grad = sum(delta_2, 2)/m;
+b2grad = sum(delta_3, 2)/m;
+W1grad = delta_3 * a_2'/m; % 25 64
+W2grad = delta_2 * data'/m; % 25 64
 
 
 
