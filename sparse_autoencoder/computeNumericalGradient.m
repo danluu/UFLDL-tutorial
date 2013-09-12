@@ -18,9 +18,17 @@ numgrad = zeros(size(theta));
 %                
 % Hint: You will probably want to compute the elements of numgrad one at a time. 
 
+% size(theta)   2 1 | 3289 1
+% size(numgrad) 2 1 | 3289 1
+eps = 1e-4;
+n = size(numgrad);
+I = eye(n, n);
+for i = 1:size(numgrad)
+    eps_vec = I(:,2) * eps;
+    numgrad(i) = (J(theta + eps_vec) - J(theta - eps_vec)) / (2 * eps);
+end
 
-
-
+% numgrad = (J(theta + eps) - J(theta - eps)) / (2 * eps)
 
 
 
