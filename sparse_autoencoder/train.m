@@ -25,6 +25,7 @@ beta = 3;            % weight of sparsity penalty term
 % FIXME: changing this while we test partial implementation
 lambda = 0;     % weight decay parameter       
 beta = 0;            % weight of sparsity penalty term       
+sparsityParam = 0;
 
 %%======================================================================
 %% STEP 1: Implement sampleIMAGES
