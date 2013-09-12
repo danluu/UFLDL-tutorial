@@ -16,6 +16,8 @@ numgrad = computeNumericalGradient(@simpleQuadraticFunction, x);
 
 % Visually examine the two gradient computations.  The two columns
 % you get should be very similar. 
+size(numgrad)
+size(grad)
 disp([numgrad grad]);
 fprintf('The above two columns you get should be very similar.\n(Left-Your Numerical Gradient, Right-Analytical Gradient)\n\n');
 
@@ -35,7 +37,8 @@ function [value,grad] = simpleQuadraticFunction(x)
 %   value: h(x1, x2) = x1^2 + 3*x1*x2
 %   grad: A 2x1 vector that gives the partial derivatives of h with respect to x1 and x2 
 % Note that when we pass @simpleQuadraticFunction(x) to computeNumericalGradients, we're assuming
-% that computeNumericalGradients will use only the first returned value of this function.
+% that computeNumericalGradients will use only the first returned
+% value of this function.
 
 value = x(1)^2 + 3*x(1)*x(2);
 
