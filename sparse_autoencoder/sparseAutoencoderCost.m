@@ -54,26 +54,37 @@ a_1 = sigmoid(data);
 z_2 = W1 * data + repmat(b1, 1, m);
 a_2 = sigmoid(z_2); % 25 10000
 
+rho_hat = sum(a_2 * data',2);
+
 z_3 = W2 * a_2 + repmat(b2, 1, m);
 a_3 = sigmoid(z_3); % 64 10000
 
 diff = a_3 - data;
-cost = sum(sum(diff).^2) / (2*m);
+sparse_penality = kl(sparsityParam, rho_hat);
+J_simple = sum(sum(diff).^2) / (2*m);
+
+cost = J_simple + beta * sparse_penality;
 
 % Backpropogation
 % f'(z) = a * (1-a)
 
-%delta_3 = -(data - a_3) .* (a_3 .* (1-a_3));   % 64 10000
-%delta_3 = diff .*            (a_3 .* (1-a_3));   % 64 10000
-%delta_2 = W2' * delta_3 .*   (a_2 .* (1-a_2));   % 25 10000
+% delta_3 = -(data - a_3) .* (a_3 .* (1-a_3));   % 64 10000
+delta_3 = diff .*            (a_3 .* (1-a_3));   % 64 10000
+delta_2_simple = W2' * delta_3 .*   (a_2 .* (1-a_2));   % 25 10000
 
-delta_3 = diff .*          prime(z_3);   % 64 10000
-delta_2 = W2' * delta_3 .* prime(z_2);   % 25 10000
+%delta_3 = diff .*          prime(z_3);   % 64 10000
+%delta_2 = W2' * delta_3 .* prime(z_2);   % 25 10000
+
+delta_2_sparse_penalty = kl_delta(sparsityParam, rho_hat);
+
+delta_2 = delta_2_simple + beta * repmat(delta_2_sparse_penalty', ...
+                                         1, m);
+
 b2grad = sum(delta_3, 2)/m;
-W2grad = delta_3 * a_2'/m; % 25 64
-
 b1grad = sum(delta_2, 2)/m;
-W1grad = delta_2 * a_1'/m; % 25 64
+
+W2grad = delta_3 * a_2'/m; % 25 64
+W1grad = delta_2 * data'/m; % 25 64
 
 %-------------------------------------------------------------------
 % After computing the cost and gradient, we will convert the gradients back
@@ -92,6 +103,15 @@ end
 function sigm = sigmoid(x)
     sigm = 1 ./ (1 + exp(-x));
 end
+
+function ans = kl(r, rh)
+    ans = sum(r * log(r ./ rh) + (1 - r) * log( (1-r) ./ (1-rh)));
+end
+
+function ans = kl_delta(r, rh)
+    ans = -(r/rh) + (1-r) / (1-rh);
+end
+
 
 function pr = prime(x)
     pr = sigmoid(x) .* (1 - sigmoid(x));
