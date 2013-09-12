@@ -24,7 +24,7 @@ eps = 1e-4;
 n = size(numgrad);
 I = eye(n, n);
 for i = 1:size(numgrad)
-    eps_vec = I(:,2) * eps;
+    eps_vec = I(:,i) * eps;
     numgrad(i) = (J(theta + eps_vec) - J(theta - eps_vec)) / (2 * eps);
 end
 
