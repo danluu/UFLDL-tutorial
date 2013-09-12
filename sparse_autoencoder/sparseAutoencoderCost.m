@@ -41,11 +41,26 @@ b2grad = zeros(size(b2));
 % Stated differently, if we were using batch gradient descent to optimize the parameters,
 % the gradient descent update to W1 would be W1 := W1 - alpha * W1grad, and similarly for W2, b1, b2. 
 % 
+% size(data, 1) % 64
+% size(W1)   % 25 64
+% size(W2)   % 64 25
+% size(b1)   % 25  1
+% size(b2)   % 64  1
 
+m = size(data, 2);
 
+i = 0;
+z_2_temp = W1 * data;
+z_2 = bsxfun(@plus, z_2_temp, b1);
+a_2 = sigmoid(z_2);
 
+z_3_temp = W2 * a_2;
+z_3 = bsxfun(@plus, z_3_temp, b2);
+a_3 = sigmoid(z_3);
 
+cost = sum(sum(a_3 - data).^2) / (2*m) ;
 
+dfsdf
 
 
 
