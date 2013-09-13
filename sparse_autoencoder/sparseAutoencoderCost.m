@@ -49,24 +49,22 @@ b2grad = zeros(size(b2));
 
 m = size(data, 2);
 
-a_1 = sigmoid(data);
-
 z_2 = W1 * data + repmat(b1, 1, m);
 a_2 = sigmoid(z_2); % 25 10000
 
-% rho_hat = sum(a_2,2); % really unsure about this
-rho_hat = sum(a_2 * data',2); % really unsure about this
+rho_hat = sum(a_2, 2); % This doesn't contain an x because the data
+                       % above "has" the x
 
 z_3 = W2 * a_2 + repmat(b2, 1, m);
 a_3 = sigmoid(z_3); % 64 10000
 
 diff = a_3 - data;
-sparse_penality = kl(sparsityParam, rho_hat);
+sparse_penalty = kl(sparsityParam, rho_hat);
 J_simple = sum(sum(diff.^2)) / (2*m);
 
 reg = sum(W1(:).^2) + sum(W2(:).^2);
 
-cost = J_simple + beta * sparse_penality + lambda * reg;
+cost = J_simple + beta * sparse_penalty / m + lambda * reg / 2;
 
 % Backpropogation
 % f'(z) = a * (1-a)
@@ -86,6 +84,7 @@ delta_3 = diff .*            (a_3 .* (1-a_3));   % 64 10000
 
 d2_simple = W2' * delta_3;   % 25 10000
 d2_pen = kl_delta(sparsityParam, rho_hat);
+
 
 delta_2 = (d2_simple + beta * repmat(d2_pen,1, m)) .* a_2 .* (1-a_2);
 
@@ -114,7 +113,7 @@ function sigm = sigmoid(x)
 end
 
 function ans = kl(r, rh)
-    ans = sum(r * log(r ./ rh) + (1 - r) .* log( (1-r) ./ (1-rh)));
+    ans = sum(r .* log(r ./ rh) + (1-r) .* log( (1-r) ./ (1-rh)));
 end
 
 function ans = kl_delta(r, rh)
