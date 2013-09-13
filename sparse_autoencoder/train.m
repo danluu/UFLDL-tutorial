@@ -22,13 +22,6 @@ sparsityParam = 0.01;   % desired average activation of the hidden units.
 lambda = 0.0001;     % weight decay parameter       
 beta = 3;            % weight of sparsity penalty term       
 
-% FIXME: changing this while we test partial implementation
-lambda = 0; 
-hiddenSize = 5;
-beta = 0;
-%beta = 0;      
-%hiddenSize = 3; 
-
 %%======================================================================
 %% STEP 1: Implement sampleIMAGES
 %
@@ -82,24 +75,24 @@ theta = initializeParameters(hiddenSize, visibleSize);
 % First, lets make sure your numerical gradient computation is correct for a
 % simple function.  After you have implemented computeNumericalGradient.m,
 % run the following: 
-checkNumericalGradient();
+% checkNumericalGradient();
 
-% Now we can use it to check your cost function and derivative calculations
-% for the sparse autoencoder.  
-numgrad = computeNumericalGradient( @(x) sparseAutoencoderCost(x, visibleSize, ...
-                                                  hiddenSize, lambda, ...
-                                                  sparsityParam, beta, ...
-                                                  patches), theta);
+% % Now we can use it to check your cost function and derivative calculations
+% % for the sparse autoencoder.  
+%  numgrad = computeNumericalGradient( @(x) sparseAutoencoderCost(x, visibleSize, ...
+%                                                   hiddenSize, lambda, ...
+%                                                   sparsityParam, beta, ...
+%                                                   patches), theta);
 
-% Use this to visually compare the gradients side by side
-disp([numgrad grad]); 
+% % Use this to visually compare the gradients side by side
+%  disp([numgrad grad]); 
 
-% Compare numerically computed gradients with the ones obtained from backpropagation
-diff = norm(numgrad-grad)/norm(numgrad+grad);
-disp(diff); % Should be small. In our implementation, these values are
-            % usually less than 1e-9.
+% % Compare numerically computed gradients with the ones obtained from backpropagation
+%  diff = norm(numgrad-grad)/norm(numgrad+grad);
+%  disp(diff); % Should be small. In our implementation, these values are
+%             % usually less than 1e-9.
 
-            % When you got this working, Congratulations!!! 
+%             % When you got this working, Congratulations!!! 
 
 %%======================================================================
 %% STEP 4: After verifying that your implementation of

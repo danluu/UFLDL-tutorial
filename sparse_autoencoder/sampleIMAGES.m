@@ -5,8 +5,7 @@ function patches = sampleIMAGES()
 load IMAGES;    % load images from disk 
 
 patchsize = 8;  % we'll use 8x8 patches 
-                %numpatches = 10000;
-numpatches = 10;
+numpatches = 10000;
 
 % Initialize patches with zeros.  Your code will fill in this matrix--one
 % column per patch, 10000 columns. 

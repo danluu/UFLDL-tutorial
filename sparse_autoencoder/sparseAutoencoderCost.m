@@ -49,42 +49,50 @@ b2grad = zeros(size(b2));
 
 m = size(data, 2);
 
-a_1 = sigmoid(data);
-
 z_2 = W1 * data + repmat(b1, 1, m);
 a_2 = sigmoid(z_2); % 25 10000
 
-rho_hat = sum(a_2 * data',2);
+rho_hat = sum(a_2, 2) / m; % This doesn't contain an x because the data
+                       % above "has" the x
 
 z_3 = W2 * a_2 + repmat(b2, 1, m);
 a_3 = sigmoid(z_3); % 64 10000
 
 diff = a_3 - data;
-sparse_penality = kl(sparsityParam, rho_hat);
-J_simple = sum(sum(diff).^2) / (2*m);
+sparse_penalty = kl(sparsityParam, rho_hat);
+J_simple = sum(sum(diff.^2)) / (2*m);
 
-cost = J_simple + beta * sparse_penality;
+reg = sum(W1(:).^2) + sum(W2(:).^2);
+
+cost = J_simple + beta * sparse_penalty + lambda * reg / 2;
 
 % Backpropogation
 % f'(z) = a * (1-a)
 
-% delta_3 = -(data - a_3) .* (a_3 .* (1-a_3));   % 64 10000
+
+% for i=1:m,
+%   delta3 = -(data(:,i) - a_3(:,i)) .* prime(z_3(:,i)); 
+%   delta2 = W2'*delta3 .* prime(z_2(:,i));
+ 
+%   W2grad = W2grad + delta3*a_2(:,i)' / m;
+%   W1grad = W1grad + delta2*a_1(:,i)' / m; 
+%   b2grad = b2grad + delta3 / m;
+%   b1grad = b1grad + delta2 / m;
+% end;
+
 delta_3 = diff .*            (a_3 .* (1-a_3));   % 64 10000
-delta_2_simple = W2' * delta_3 .*   (a_2 .* (1-a_2));   % 25 10000
 
-%delta_3 = diff .*          prime(z_3);   % 64 10000
-%delta_2 = W2' * delta_3 .* prime(z_2);   % 25 10000
+d2_simple = W2' * delta_3;   % 25 10000
+d2_pen = kl_delta(sparsityParam, rho_hat);
 
-delta_2_sparse_penalty = kl_delta(sparsityParam, rho_hat);
 
-delta_2 = delta_2_simple + beta * repmat(delta_2_sparse_penalty', ...
-                                         1, m);
+delta_2 = (d2_simple + beta * repmat(d2_pen,1, m)) .* a_2 .* (1-a_2);
 
 b2grad = sum(delta_3, 2)/m;
 b1grad = sum(delta_2, 2)/m;
 
-W2grad = delta_3 * a_2'/m; % 25 64
-W1grad = delta_2 * data'/m; % 25 64
+W2grad = delta_3 * a_2'/m  + lambda * W2; % 25 64
+W1grad = delta_2 * data'/m + lambda * W1; % 25 64
 
 %-------------------------------------------------------------------
 % After computing the cost and gradient, we will convert the gradients back
@@ -105,11 +113,11 @@ function sigm = sigmoid(x)
 end
 
 function ans = kl(r, rh)
-    ans = sum(r * log(r ./ rh) + (1 - r) * log( (1-r) ./ (1-rh)));
+    ans = sum(r .* log(r ./ rh) + (1-r) .* log( (1-r) ./ (1-rh)));
 end
 
 function ans = kl_delta(r, rh)
-    ans = -(r/rh) + (1-r) / (1-rh);
+    ans = -(r./rh) + (1-r) ./ (1-rh);
 end
 
 
