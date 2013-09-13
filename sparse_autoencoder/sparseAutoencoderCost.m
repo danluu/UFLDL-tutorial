@@ -52,7 +52,7 @@ m = size(data, 2);
 z_2 = W1 * data + repmat(b1, 1, m);
 a_2 = sigmoid(z_2); % 25 10000
 
-rho_hat = sum(a_2, 2); % This doesn't contain an x because the data
+rho_hat = sum(a_2, 2) / m; % This doesn't contain an x because the data
                        % above "has" the x
 
 z_3 = W2 * a_2 + repmat(b2, 1, m);
@@ -64,7 +64,7 @@ J_simple = sum(sum(diff.^2)) / (2*m);
 
 reg = sum(W1(:).^2) + sum(W2(:).^2);
 
-cost = J_simple + beta * sparse_penalty / m + lambda * reg / 2;
+cost = J_simple + beta * sparse_penalty + lambda * reg / 2;
 
 % Backpropogation
 % f'(z) = a * (1-a)
