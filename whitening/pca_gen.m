@@ -106,6 +106,8 @@ xPCAWhite = zeros(size(x));
 
 % -------------------- YOUR CODE HERE -------------------- 
 
+xPCAWhite = diag(1./sqrt(diag(S) + epsilon)) * U' * x;
+
 %%================================================================
 %% Step 4b: Check your implementation of PCA whitening 
 %  Check your implementation of PCA whitening with and without regularisation. 
@@ -124,6 +126,8 @@ xPCAWhite = zeros(size(x));
 
 % -------------------- YOUR CODE HERE -------------------- 
 
+covar = xPCAWhite * xPCAWhite' / size(xPCAWhite, 2);
+
 % Visualise the covariance matrix. You should see a red line across the
 % diagonal against a blue background.
 figure('name','Visualisation of covariance matrix');
@@ -138,6 +142,8 @@ imagesc(covar);
 xZCAWhite = zeros(size(x));
 
 % -------------------- YOUR CODE HERE -------------------- 
+
+xZCAWhite = U * diag(1./sqrt(diag(S) + epsilon)) * U' * x;
 
 % Visualise the data, and compare it to the raw data.
 % You should observe that the whitened images have enhanced edges.
