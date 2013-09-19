@@ -9,8 +9,11 @@ close all
 
 x = load('pcaData.txt','-ascii');
 figure(1);
+% hold on
 scatter(x(1, :), x(2, :));
 title('Raw data');
+
+x(:,10)
 
 
 %%================================================================
@@ -21,6 +24,17 @@ title('Raw data');
 % -------------------- YOUR CODE HERE -------------------- 
 u = zeros(size(x, 1)); % You need to compute this
 
+avg = mean(x,1);
+% If we do this in 2d, we reduce the number of dimensions to 1
+% x = x - repmat(avg, size(x, 1), 1);
+
+% % plot normalized version
+% scatter(x(1, :), x(2, :), 'x');
+% hold off
+
+sigma = x * x' / size(x, 2)
+[U, S, V] = svd(sigma);
+u = U;
 
 % -------------------------------------------------------- 
 hold on
@@ -36,7 +50,7 @@ hold off
 
 % -------------------- YOUR CODE HERE -------------------- 
 xRot = zeros(size(x)); % You need to compute this
-
+xRot = u' * x;
 
 % -------------------------------------------------------- 
 
@@ -55,25 +69,32 @@ title('xRot');
 % -------------------- YOUR CODE HERE -------------------- 
 k = 1; % Use k = 1 and project the data onto the first eigenbasis
 xHat = zeros(size(x)); % You need to compute this
-
-
-
+xTidle = xRot;
+xTidle(k+1:end,:) = 0;
+xHat = U * xTidle;
+% xHat = reduced' * xRot;
+% xHat = diag(u(:,1:k))' * xRot; %note: this only works because k =
 % -------------------------------------------------------- 
 figure(3);
 scatter(xHat(1, :), xHat(2, :));
 title('xHat');
 
-
 %%================================================================
 %% Step 3: PCA Whitening
 %  Complute xPCAWhite and plot the results.
+
+% recompute stuff with normalization
+avg = mean(x,1);
+% x = x - repmat(avg, size(x, 1), 1);
+sigma = x * x' / size(x, 2)
+[U, S, V] = svd(sigma);
 
 epsilon = 1e-5;
 % -------------------- YOUR CODE HERE -------------------- 
 xPCAWhite = zeros(size(x)); % You need to compute this
 
 
-
+xPCAWhite = diag(1./sqrt(diag(S) + epsilon)) * U' * x;
 
 % -------------------------------------------------------- 
 figure(4);
@@ -86,7 +107,7 @@ title('xPCAWhite');
 
 % -------------------- YOUR CODE HERE -------------------- 
 xZCAWhite = zeros(size(x)); % You need to compute this
-
+xZCAWhite = U * diag(1./sqrt(diag(S) + epsilon)) * U' * x;
 
 % -------------------------------------------------------- 
 figure(5);
