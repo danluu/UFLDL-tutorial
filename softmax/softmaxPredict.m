@@ -17,10 +17,14 @@ pred = zeros(1, size(data, 2));
 
 
 
+size(pred) %   1 10000
+size(data) % 784 10000
+size(theta)%  10     8
 
+p = theta*data;
+[junk, idx] = max(p, [], 1);
 
-
-
+pred = idx
 
 % ---------------------------------------------------------------------
 
