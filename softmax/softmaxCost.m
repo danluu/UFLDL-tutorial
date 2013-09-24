@@ -24,15 +24,23 @@ thetagrad = zeros(numClasses, inputSize);
 %                The groundTruth matrix might come in handy.
 
 
+% size(groundTruth) % 10 100
+% size(theta)       % 10 8
+% size(labels)      % 100 1
+% size(data)        % 8 10
+% size (thetagrad)  % 10 8  
+% h                 % 10 10
 
+y = groundTruth;
+m = numCases;
 
+temp = exp(theta * data);
 
+denominator = sum(temp);
+p = bsxfun(@rdivide, temp, denominator);
+cost = -1/m * sum(sum(y .* log(p)));
 
-
-
-
-
-
+thetagrad = (-1/m) * (y - p) * data';
 
 % ------------------------------------------------------------------
 % Unroll the gradient matrices into a vector for minFunc
