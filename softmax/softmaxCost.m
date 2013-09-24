@@ -34,7 +34,11 @@ thetagrad = zeros(numClasses, inputSize);
 y = groundTruth;
 m = numCases;
 
-temp = exp(theta * data);
+% note that if we subtract off after taking the exponent, as in the
+% text, we get NaN
+td = theta * data;
+td = bsxfun(@minus, td, max(td));
+temp = exp(td);
 
 denominator = sum(temp);
 p = bsxfun(@rdivide, temp, denominator);
