@@ -42,9 +42,9 @@ temp = exp(td);
 
 denominator = sum(temp);
 p = bsxfun(@rdivide, temp, denominator);
-cost = -1/m * sum(sum(y .* log(p)));
+cost = (-1/m) * sum(sum(y .* log(p))) + (lambda / 2) * sum(sum(theta .^2));
 
-thetagrad = (-1/m) * (y - p) * data';
+thetagrad = (-1/m) * (y - p) * data' + lambda * theta;
 
 % ------------------------------------------------------------------
 % Unroll the gradient matrices into a vector for minFunc
