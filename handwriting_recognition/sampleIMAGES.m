@@ -2,7 +2,7 @@ function patches = sampleIMAGES(images)
 % sampleIMAGES
 % Returns 10000 patches for training
 
-patchsize = 8;  % we'll use 8x8 patches 
+patchsize = 28;  % 
 numpatches = 10000;
 
 % Initialize patches with zeros.  Your code will fill in this matrix--one
@@ -27,14 +27,12 @@ patches = zeros(patchsize*patchsize, numpatches);
 % size(patches)      % 64 x 10000
 % size(patches(:,1)) % 64 x 1
 
-size(images)
-size(images:,:,1)
-sflsjflj
+[xmax, ymax, m] = size(images)
 
 for i = 1:numpatches
-    x = randi(512-8);
-    y = randi(512-8);
-    sample = images(x:x+7,y:y+7,randi(10));
+    x = randi(xmax - patchsize);
+    y = randi(ymax - patchsize);
+    sample = images(x:x+patchsize-1,y:y+patchsize-1,randi(m));
     patches(:,i) = sample(:);
 end
 
