@@ -71,13 +71,26 @@ theta = initializeParameters(hiddenSize, inputSize);
 
 opttheta = theta; 
 
+addpath './minFunc/'
+options.Method = 'lbfgs'; % Here, we use L-BFGS to optimize our cost
+                          % function. Generally, for minFunc to work, you
+                          % need a function pointer with two outputs: the
+                          % function value and the gradient. In our problem,
+                          % sparseAutoencoderCost.m satisfies this.
+options.maxIter = 400;	  % Maximum number of iterations of L-BFGS to run 
+options.display = 'on';
 
 
+% [opttheta, cost] = minFunc( @(p) sparseAutoencoderCost(p, ...
+%                                   visibleSize, hiddenSize, ...
+%                                   lambda, sparsityParam, ...
+%                                   beta, patches), ...
+%                              theta, options);
 
 
+% save('min_func_result.mat', 'trainSet', 'testSet', 'unlabeledData', 'trainData', 'trainLabels', 'testData', 'testLabels', 'opttheta');
 
-
-
+load('min_func_result.mat');
 
 %% -----------------------------------------------------
                           
@@ -110,13 +123,11 @@ softmaxModel = struct;
 % You need to compute softmaxModel using softmaxTrain on trainFeatures and
 % trainLabels
 
+lambda = 1e-4;
+numClasses = numel(unique(trainLabels));
 
-
-
-
-
-
-
+softmaxModel = softmaxTrain(hiddenSize, numClasses, lambda, ...
+                            trainFeatures, trainLabels, options);
 
 
 %% -----------------------------------------------------
@@ -129,19 +140,7 @@ softmaxModel = struct;
 % Compute Predictions on the test set (testFeatures) using softmaxPredict
 % and softmaxModel
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+[pred] = softmaxPredict(softmaxModel, testFeatures);
 
 %% -----------------------------------------------------
 
