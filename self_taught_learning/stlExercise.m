@@ -123,13 +123,11 @@ softmaxModel = struct;
 % You need to compute softmaxModel using softmaxTrain on trainFeatures and
 % trainLabels
 
+lambda = 1e-4;
+numClasses = numel(unique(trainLabels));
 
-
-
-
-
-
-
+softmaxModel = softmaxTrain(hiddenSize, numClasses, lambda, ...
+                            trainFeatures, trainLabels, options);
 
 
 %% -----------------------------------------------------
