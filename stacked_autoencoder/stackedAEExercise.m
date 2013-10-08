@@ -100,13 +100,14 @@ sae2Theta = initializeParameters(hiddenSizeL2, hiddenSizeL1);
 %
 %                You should store the optimal parameters in sae2OptTheta
 
- [sae2OptTheta, cost] = minFunc( @(p) sparseAutoencoderCost(p, ...
-                                   hiddenSizeL1, hiddenSizeL2, ...
-                                   lambda, sparsityParam, ...
-                                   beta, sae1Features), ...
-                              sae1Theta, options);
+ % [sae2OptTheta, cost] = minFunc( @(p) sparseAutoencoderCost(p, ...
+ %                                   hiddenSizeL1, hiddenSizeL2, ...
+ %                                   lambda, sparsityParam, ...
+ %                                   beta, sae1Features), ...
+ %                              sae2Theta, options);
 
- save('layer2.mat',  'sae2OptTheta');
+ %  save('layer2.mat',  'sae2OptTheta');
+ load('layer2.mat')'
 
 % -------------------------------------------------------------------------
 
@@ -135,14 +136,14 @@ saeSoftmaxTheta = 0.005 * randn(hiddenSizeL2 * numClasses, 1);
 %        set saeSoftmaxOptTheta = softmaxModel.optTheta(:);
 
 
+options.maxIter = 100;
+% softmaxModel = softmaxTrain(hiddenSizeL2, numClasses, lambda, ...
+%                             sae2Features, trainLabels, options);
 
+% saeSoftmaxOptTheta = softmaxModel.optTheta(:);
 
-
-
-
-
-
-
+% save('layer3.mat', 'saeSoftmaxOptTheta');
+load('layer3.mat');
 
 % -------------------------------------------------------------------------
 
@@ -174,24 +175,16 @@ stackedAETheta = [ saeSoftmaxOptTheta ; stackparams ];
 %
 %
 
+ [stackedAETheta, cost] = minFunc( @(p) stackedAECost(p, ...
+                                   inputSize, hiddenSizeL2, ...
+                                   numClasses, netconfig, ...
+                                   lambda, trainData, trainLabels), ...
+                              stackedAETheta, options);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+save('layer4.mat', 'stackedAETheta');
 
 
 % -------------------------------------------------------------------------
-
 
 
 %%======================================================================
