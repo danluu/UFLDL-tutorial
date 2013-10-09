@@ -49,13 +49,15 @@ b2grad = zeros(size(b2));
 
 m = size(data, 2);
 
-z_2 = W1 * data + repmat(b1, 1, m);
+% z_2 = W1 * data + repmat(b1, 1, m);
+z_2 = bsxfun(@plus, W1 * data, b1);
 a_2 = sigmoid(z_2); % 25 10000
 
 rho_hat = sum(a_2, 2) / m; % This doesn't contain an x because the data
                        % above "has" the x
 
-z_3 = W2 * a_2 + repmat(b2, 1, m);
+% z_3 = W2 * a_2 + repmat(b2, 1, m);
+z_3 = bsxfun(@plus, W2 * a_2, b2);
 a_3 = sigmoid(z_3); % 64 10000
 
 diff = a_3 - data;
