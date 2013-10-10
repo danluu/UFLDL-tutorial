@@ -58,7 +58,7 @@ rho_hat = sum(a_2, 2) / m; % This doesn't contain an x because the data
 
 % z_3 = W2 * a_2 + repmat(b2, 1, m);
 z_3 = bsxfun(@plus, W2 * a_2, b2);
-a_3 = sigmoid(z_3); % 64 10000
+a_3 = z_3; % linear!
 
 diff = a_3 - data;
 sparse_penalty = kl(sparsityParam, rho_hat);
@@ -69,20 +69,9 @@ reg = sum(W1(:).^2) + sum(W2(:).^2);
 cost = J_simple + beta * sparse_penalty + lambda * reg / 2;
 
 % Backpropogation
-% f'(z) = a * (1-a)
+% f'(z) = 1 for linear input, a * (1-a) for hidden layer
 
-
-% for i=1:m,
-%   delta3 = -(data(:,i) - a_3(:,i)) .* prime(z_3(:,i)); 
-%   delta2 = W2'*delta3 .* prime(z_2(:,i));
- 
-%   W2grad = W2grad + delta3*a_2(:,i)' / m;
-%   W1grad = W1grad + delta2*a_1(:,i)' / m; 
-%   b2grad = b2grad + delta3 / m;
-%   b1grad = b1grad + delta2 / m;
-% end;
-
-delta_3 = diff .*            (a_3 .* (1-a_3));   % 64 10000
+delta_3 = diff;   % 64 10000
 
 d2_simple = W2' * delta_3;   % 25 10000
 d2_pen = kl_delta(sparsityParam, rho_hat);
@@ -111,7 +100,7 @@ end
 % column) vector (say (z1, z2, z3)) and returns (f(z1), f(z2), f(z3)). 
 
 function sigm = sigmoid(x)
-    sigm = 1 ./ (1 + exp(-x));
+    sigm = 1 ./ (1 + exp(-x));    
 end
 
 function ans = kl(r, rh)
