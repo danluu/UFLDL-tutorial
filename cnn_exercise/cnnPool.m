@@ -14,6 +14,7 @@ function pooledFeatures = cnnPool(poolDim, convolvedFeatures)
 numImages = size(convolvedFeatures, 2);
 numFeatures = size(convolvedFeatures, 1);
 convolvedDim = size(convolvedFeatures, 3);
+resDim = floor(convolvedDim / poolDim);
 
 pooledFeatures = zeros(numFeatures, numImages, floor(convolvedDim / poolDim), floor(convolvedDim / poolDim));
 
@@ -30,6 +31,24 @@ pooledFeatures = zeros(numFeatures, numImages, floor(convolvedDim / poolDim), fl
 %   
 %   Use mean pooling here.
 % -------------------- YOUR CODE HERE --------------------
+
+for imageNum = 1:numImages
+    for featureNum = 1:numFeatures
+        for poolRow = 1:resDim
+            rowStart = (poolRow - 1) * poolDim + 1;
+            rowEnd = rowStart + poolDim - 1;
+            for poolCol = 1:resDim
+                colStart = (poolCol - 1) * poolDim + 1;
+                colEnd = colStart + poolDim - 1;
+                patch = convolvedFeatures(featureNum, imageNum, ...
+                                          rowStart:rowEnd, ...
+                                          colStart:colEnd);
+                pooledFeatures(featureNum, imageNum, poolRow, poolCol) ...
+                    = mean(patch(:));
+            end
+        end
+    end
+end
 
 end
 
