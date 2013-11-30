@@ -15,10 +15,10 @@ alpha = 0.07;
 delta = ones(size(theta),1);
 
 while abs(max(delta(:))) > 0.00001
-    h = sum(x * theta,2);
-    err = h - y;
-    delta = x' * err / m;
-    theta = theta - alpha * delta;
+  h = sum(x * theta,2);
+  err = h - y;
+  delta = x' * err / m;
+  theta = theta - alpha * delta;
 end
 
 hold on % Plot new data without clearing old plot
@@ -35,11 +35,11 @@ J_vals = zeros(100, 100);   % initialize Jvals to 100x100 matrix of
 theta0_vals = linspace(-3, 3, 100);
 theta1_vals = linspace(-1, 1, 100);
 for i = 1:length(theta0_vals)
-      for j = 1:length(theta1_vals)
-            t = [theta0_vals(i); theta1_vals(j)];
-            h = sum(x * t);
-            J_vals(i,j) = sum((h - y).^2) / (2*m);
-    end
+  for j = 1:length(theta1_vals)
+    t = [theta0_vals(i); theta1_vals(j)];
+    h = sum(x * t);
+    J_vals(i,j) = sum((h - y).^2) / (2*m);
+  end
 end
 
 % Plot the surface plot
@@ -50,4 +50,3 @@ J_vals = J_vals';
 figure;
 surf(theta0_vals, theta1_vals, J_vals)
 xlabel('\theta_0'); ylabel('\theta_1')
-
