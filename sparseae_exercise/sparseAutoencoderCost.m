@@ -69,7 +69,6 @@ cost = J_simple + beta * sparse_penalty + lambda * reg / 2;
 % Backpropogation
 % f'(z) = a * (1-a)
 
-
 % for i=1:m,
 %   delta3 = -(data(:,i) - a_3(:,i)) .* prime(z_3(:,i)); 
 %   delta2 = W2'*delta3 .* prime(z_2(:,i));
@@ -109,15 +108,15 @@ end
 % column) vector (say (z1, z2, z3)) and returns (f(z1), f(z2), f(z3)). 
 
 function sigm = sigmoid(x)
-    sigm = 1 ./ (1 + exp(-x));
+  sigm = 1 ./ (1 + exp(-x));
 end
 
 function ans = kl(r, rh)
-    ans = sum(r .* log(r ./ rh) + (1-r) .* log( (1-r) ./ (1-rh)));
+  ans = sum(r .* log(r ./ rh) + (1-r) .* log( (1-r) ./ (1-rh)));
 end
 
 function ans = kl_delta(r, rh)
-    ans = -(r./rh) + (1-r) ./ (1-rh);
+  ans = -(r./rh) + (1-r) ./ (1-rh);
 end
 
 
