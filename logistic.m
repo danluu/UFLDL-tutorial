@@ -24,15 +24,15 @@ size(h)
 size(x)
 
 for i = 1:20
-    h = g(x*theta);
-    err = h - y;
-    grad = x' * err / m;
+  h = g(x*theta);
+  err = h - y;
+  grad = x' * err / m;
 
-    % Well, this gives us the correct dimensions, so it's probably ok
-    % But, there must be a better way to do this.
-    hess = (repmat(1-h, 1, 3) .* x)' * (repmat(h,1,3) .* x) / m;
-    
-    theta = theta - hess\grad;
+  % Well, this gives us the correct dimensions, so it's probably ok
+  % But, there must be a better way to do this.
+  hess = (repmat(1-h, 1, 3) .* x)' * (repmat(h,1,3) .* x) / m;
+  
+  theta = theta - hess\grad;
 end
 
 theta
