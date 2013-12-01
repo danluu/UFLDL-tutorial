@@ -3,8 +3,16 @@ These are solutions to the exercises up at the [Stanford OpenClassroom Deep Lear
 Apologies for the mess. I'll clean this up when I have some spare time. Pull requests welcome, of course.
 
 Here's the order of the exercises:
-### [Stanford OpenClassroom Deep Learning class](http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=DeepLearning)
+#### [Stanford OpenClassroom Deep Learning class](http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=DeepLearning)
 1. linear.m
 2. multiple.m
 3. logistic.m
+
+#### [Unsupervised Feature Learning and Deep Learning Tutorial](http://ufldl.stanford.edu/wiki/index.php/UFLDL_Tutorial)
+1. Sparse Autoencoder: sparseae_exercise/train.m
+2. Vectorized Implementation: sparseae_exercise/train.m (`1` is already vectorized)
+3.1. PCA in 2d: pca_2d/pca_2d.m
+3.2. PCA: pca_gen/pca_gen.m
+4. Softmax Regression: softmax_exercise/softmaxExercise.m
+5. Self-Taught Learning: stl_exercise/stlExercise.m
 
