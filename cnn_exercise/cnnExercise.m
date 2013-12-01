@@ -1,3 +1,6 @@
+addpath ../common/
+addpath ../common/fminlbfgs
+
 %% CS294A/CS294W Convolutional Neural Networks Exercise
 
 %  Instructions
@@ -214,7 +217,7 @@ softmaxX = reshape(softmaxX, numel(pooledFeaturesTrain) / numTrainImages,...
 softmaxY = trainLabels;
 
 options = struct;
-options.maxIter = 200;
+options.MaxIter = 200;
 softmaxModel = softmaxTrain(numel(pooledFeaturesTrain) / numTrainImages,...
     numClasses, softmaxLambda, softmaxX, softmaxY, options);
 
