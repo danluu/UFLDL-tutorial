@@ -19,22 +19,23 @@ if ~exist('options', 'var')
 end
 
 if ~isfield(options, 'maxIter')
-    options.maxIter = 400;
+    options.MaxIter = 400;
 end
 
 % initialize parameters
 theta = 0.005 * randn(numClasses * inputSize, 1);
 
 % Use minFunc to minimize the function
-addpath minFunc/
+addpath ../common/fminlbfgs
 options.Method = 'lbfgs'; % Here, we use L-BFGS to optimize our cost
                           % function. Generally, for minFunc to work, you
                           % need a function pointer with two outputs: the
                           % function value and the gradient. In our problem,
-                          % softmaxCost.m satisfies this.
-minFuncOptions.display = 'on';
+                          % softmaxCost.m satisfies this
+options.Display = 'iter';
+options.GradObj = 'on';
 
-[softmaxOptTheta, cost] = minFunc( @(p) softmaxCost(p, ...
+[softmaxOptTheta, cost] = fminlbfgs( @(p) softmaxCost(p, ...
                                    numClasses, inputSize, lambda, ...
                                    inputData, labels), ...                                   
                               theta, options);

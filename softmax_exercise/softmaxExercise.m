@@ -92,7 +92,7 @@ end
 %  you can start training your softmax regression code using softmaxTrain
 %  (which uses minFunc).
 
-options.maxIter = 100;
+options.MaxIter = 100;
 softmaxModel = softmaxTrain(inputSize, numClasses, lambda, ...
                             inputData, labels, options);
                           

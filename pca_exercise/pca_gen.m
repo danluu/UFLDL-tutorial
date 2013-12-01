@@ -1,3 +1,5 @@
+addpath ../common/
+
 %%================================================================
 %% Step 0a: Load data
 %  Here we provide the code to load natural image data into x.
@@ -27,7 +29,7 @@ x = x - repmat(avg, size(x, 1), 1);
 % -------------------- YOUR CODE HERE -------------------- 
 xRot = zeros(size(x)); % You need to compute this
 
-sigma = x * x' / size(x, 2)
+sigma = x * x' / size(x, 2);
 [U, S, V] = svd(sigma);
 xRot = U' * x;
 

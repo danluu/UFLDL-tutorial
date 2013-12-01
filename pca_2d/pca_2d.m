@@ -32,7 +32,7 @@ avg = mean(x,1);
 % scatter(x(1, :), x(2, :), 'x');
 % hold off
 
-sigma = x * x' / size(x, 2)
+sigma = x * x' / size(x, 2);
 [U, S, V] = svd(sigma);
 u = U;
 
@@ -86,7 +86,7 @@ title('xHat');
 % recompute stuff with normalization
 avg = mean(x,1);
 % x = x - repmat(avg, size(x, 1), 1);
-sigma = x * x' / size(x, 2)
+sigma = x * x' / size(x, 2);
 [U, S, V] = svd(sigma);
 
 epsilon = 1e-5;
