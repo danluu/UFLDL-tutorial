@@ -58,26 +58,25 @@ sae1Theta = initializeParameters(hiddenSizeL1, inputSize);
 %                an hidden size of "hiddenSizeL1"
 %                You should store the optimal parameters in sae1OptTheta
 
-addpath './minFunc/'
 options.Method = 'lbfgs'; % Here, we use L-BFGS to optimize our cost
                           % function. Generally, for minFunc to work, you
                           % need a function pointer with two outputs: the
                           % function value and the gradient. In our problem,
                           % sparseAutoencoderCost.m satisfies this.
-options.maxIter = 400;	  % Maximum number of iterations of L-BFGS to run 
-options.display = 'on';
+options.MaxIter = 400;	  % Maximum number of iterations of L-BFGS to run 
+options.Display = 'iter';
+options.GradObj = 'on';
 
-
- % [sae1OptTheta, cost] = minFunc( @(p) sparseAutoencoderCost(p, ...
- %                                   inputSize, hiddenSizeL1, ...
- %                                   lambda, sparsityParam, ...
- %                                   beta, trainData), ...
- %                              sae1Theta, options);
+ [sae1OptTheta, cost] = fminlbfgs( @(p) sparseAutoencoderCost(p, ...
+                                   inputSize, hiddenSizeL1, ...
+                                   lambda, sparsityParam, ...
+                                   beta, trainData), ...
+                              sae1Theta, options);
 
 
  % save('layer1.mat',  'sae1OptTheta');
 
- load('layer1.mat');
+ % load('layer1.mat');
 
 % -------------------------------------------------------------------------
 
@@ -103,14 +102,14 @@ sae2Theta = initializeParameters(hiddenSizeL2, hiddenSizeL1);
 %
 %                You should store the optimal parameters in sae2OptTheta
 
- % [sae2OptTheta, cost] = minFunc( @(p) sparseAutoencoderCost(p, ...
- %                                   hiddenSizeL1, hiddenSizeL2, ...
- %                                   lambda, sparsityParam, ...
- %                                   beta, sae1Features), ...
- %                              sae2Theta, options);
+ [sae2OptTheta, cost] = fminlbfgs( @(p) sparseAutoencoderCost(p, ...
+                                   hiddenSizeL1, hiddenSizeL2, ...
+                                   lambda, sparsityParam, ...
+                                   beta, sae1Features), ...
+                              sae2Theta, options);
 
- %  save('layer2.mat',  'sae2OptTheta');
- load('layer2.mat')'
+ % save('layer2.mat',  'sae2OptTheta');
+ % load('layer2.mat')'
 
 % -------------------------------------------------------------------------
 
@@ -139,14 +138,14 @@ saeSoftmaxTheta = 0.005 * randn(hiddenSizeL2 * numClasses, 1);
 %        set saeSoftmaxOptTheta = softmaxModel.optTheta(:);
 
 
-options.maxIter = 100;
-% softmaxModel = softmaxTrain(hiddenSizeL2, numClasses, lambda, ...
-%                             sae2Features, trainLabels, options);
+options.MaxIter = 100;
+softmaxModel = softmaxTrain(hiddenSizeL2, numClasses, lambda, ...
+                            sae2Features, trainLabels, options);
 
-% saeSoftmaxOptTheta = softmaxModel.optTheta(:);
+saeSoftmaxOptTheta = softmaxModel.optTheta(:);
 
 % save('layer3.mat', 'saeSoftmaxOptTheta');
-load('layer3.mat');
+% load('layer3.mat');
 
 % -------------------------------------------------------------------------
 
@@ -178,13 +177,13 @@ stackedAETheta = [ saeSoftmaxOptTheta ; stackparams ];
 %
 %
 
- [stackedAEOptTheta, cost] = minFunc( @(p) stackedAECost(p, ...
+ [stackedAEOptTheta, cost] = fminlbfgs( @(p) stackedAECost(p, ...
                                    inputSize, hiddenSizeL2, ...
                                    numClasses, netconfig, ...
                                    lambda, trainData, trainLabels), ...
                               stackedAETheta, options);
 
-save('layer4.mat', 'stackedAEOptTheta');
+% save('layer4.mat', 'stackedAEOptTheta');
 
 
 % -------------------------------------------------------------------------
