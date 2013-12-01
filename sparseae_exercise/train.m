@@ -1,3 +1,6 @@
+addpath ../common/
+addpath ../common/fminlbfgs
+
 %% CS294A/CS294W Programming Assignment Starter Code
 
 %  Instructions
@@ -29,7 +32,6 @@ beta = 3;            % weight of sparsity penalty term
 %  display a random sample of 200 patches from the dataset
 
 patches = sampleIMAGES;
-addpath ../common/
 display_network(patches(:,randi(size(patches,2),200,1)),8);
 
 
@@ -104,7 +106,6 @@ theta = initializeParameters(hiddenSize, visibleSize);
 theta = initializeParameters(hiddenSize, visibleSize);
 
 %  Use minFunc to minimize the function
-addpath ../common/fminlbfgs
 options.HessUpate = 'lbfgs'; % Here, we use L-BFGS to optimize our cost
                           % function. Generally, for minFunc to work, you
                           % need a function pointer with two outputs: the

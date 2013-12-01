@@ -1,3 +1,6 @@
+addpath ../common/
+addpath ../common/fminlbfgs
+
 %% CS294A/CS294W Linear Decoder Exercise
 
 %  Instructions

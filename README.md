@@ -18,4 +18,5 @@ Here's the order of the exercises:
 3.2. PCA: `pca_gen/pca_gen.m`
 4. Softmax Regression: `softmax_exercise/softmaxExercise.m`
 5. Self-Taught Learning: `stl_exercise/stlExercise.m`
+6. Building Deep Networks for Classification: `stackedae_exercise/stackedAEExercise.m`
 
