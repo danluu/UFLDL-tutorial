@@ -115,14 +115,14 @@ displayColorNetwork(patches(:, 1:100));
 theta = initializeParameters(hiddenSize, visibleSize);
 
 % Use minFunc to minimize the function
-addpath minFunc/
 
 options = struct;
-options.Method = 'lbfgs'; 
-options.maxIter = 400;
-options.display = 'on';
+options.HessUpdate = 'lbfgs'; 
+options.MaxIter = 400;
+options.Display = 'iter';
+options.GradObj = 'on';
 
-[optTheta, cost] = minFunc( @(p) sparseAutoencoderLinearCost(p, ...
+[optTheta, cost] = fminlbfgs( @(p) sparseAutoencoderLinearCost(p, ...
                                    visibleSize, hiddenSize, ...
                                    lambda, sparsityParam, ...
                                    beta, patches), ...
@@ -130,9 +130,9 @@ options.display = 'on';
 
 % Save the learned features and the preprocessing matrices for use in 
 % the later exercise on convolution and pooling
-fprintf('Saving learned features and preprocessing matrices...\n');                          
-save('STL10Features.mat', 'optTheta', 'ZCAWhite', 'meanPatch');
-fprintf('Saved\n');
+% fprintf('Saving learned features and preprocessing matrices...\n');                          
+% save('STL10Features.mat', 'optTheta', 'ZCAWhite', 'meanPatch');
+% fprintf('Saved\n');
 
 %% STEP 2d: Visualize learned features
 
