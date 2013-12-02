@@ -25,4 +25,8 @@ Here's the order of the exercises:
 
 6. Building Deep Networks for Classification: `stackedae_exercise/stackedAEExercise.m`
 
+7. Learning Color Features with Sparse Autoencoders: `linear_decoder_exercise/linearDecoderExercise.m`
+
+8. Convolution and Pooling: `cnn_exercise/cnnExercise.m`
+
 
