@@ -2,7 +2,8 @@ These are solutions to the exercises up at the [Stanford OpenClassroom Deep Lear
 
 Apologies for the mess. I'll clean this up when I have some spare time. Pull requests welcome, of course.
 
-I've attempted to make this Octave compatible, so that you can run this with free software. I've done this through the self-taught learning exercise, and it seems to work, but the results are slightly different. One side effect of this is that I'm using [fminlbfgs instead of minFunc](http://ufldl.stanford.edu/wiki/index.php/Fminlbfgs_Details)
+I've attempted to make this Octave compatible, so that you can run this with free software. It seems to work, but the results are slightly different. One side effect of this is that I'm using [fminlbfgs instead of minFunc](http://ufldl.stanford.edu/wiki/index.php/Fminlbfgs_Details).
+
 
 Here's the order of the exercises:
 #### [Stanford OpenClassroom Deep Learning class](http://openclassroom.stanford.edu/MainFolder/CoursePage.php?course=DeepLearning)
