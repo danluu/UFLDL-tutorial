@@ -88,7 +88,7 @@ softmaxThetaGrad = (-1/m) * (y - p) * a{n+1}' + lambda * softmaxTheta;
 
 % delta
 d = cell(n+1);
-d{n+1} = -(softmaxTheta' * (y - p)) .* a{n+1} .* (1 -a{n});
+d{n+1} = -(softmaxTheta' * (y - p)) .* a{n + 1} .* (1 -a{n + 1});
 
 for l = (n:-1:2)
     d{l} = stack{l}.w' * d{l+1} .* a{l} .* (1-a{l});
