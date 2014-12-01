@@ -30,8 +30,8 @@ patches = zeros(patchsize*patchsize, numpatches);
 % size(patches(:,1)) % 64 x 1
 
 for i = 1:numpatches
-    x = randi(512-8);
-    y = randi(512-8);
+    x = randi(512-8+1);
+    y = randi(512-8+1);
     sample = IMAGES(x:x+7,y:y+7,randi(10));
     patches(:,i) = sample(:);
 end
