@@ -12,7 +12,7 @@ x = [ones(m, 1), x]; %add a column of ones to x
 theta = zeros(size(x,2),1);
 alpha = 0.07;
 
-delta = ones(size(theta),1);
+delta = ones(size(theta));
 
 while abs(max(delta(:))) > 0.00001
   h = sum(x * theta,2);
